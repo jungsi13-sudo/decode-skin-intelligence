@@ -1,0 +1,28 @@
+import type { TreatmentIntel } from "./types";
+
+export const demoTreatment: TreatmentIntel = {
+  id: "demo-rf",
+  name_ko: "고주파 피부 타이트닝",
+  name_en: "RF Skin Tightening",
+  slug: "rf-skin-tightening",
+  method_name: "External / Non-invasive",
+  modality_name: "Radiofrequency",
+  content_status: "draft",
+  updated_at: "2026-08-14T00:00:00.000Z",
+  overview_ko: `RF Skin Tightening은 **고주파(Radiofrequency, RF) 에너지로 조직에 열을 발생시켜 피부 탄력과 타이트닝을 유도하는 비침습 시술군**이다.\n\n중요한 점은 RF Skin Tightening이 특정 브랜드나 장비명이 아니라 **Treatment Category**라는 것이다.\n\n**decode.skin 분류**\n- Method: External / Non-invasive\n- Modality: Radiofrequency\n- Primary goal: Skin tightening / mild laxity improvement`,
+  expected_effects_ko: `- 경도~중등도 피부 처짐 개선\n- 턱선 및 하안면 탄력 개선\n- 잔주름·피부 질감의 일부 개선\n- 피부가 조금 더 탄탄해 보이는 효과\n\n수술적 리프팅과 동일한 수준의 변화로 이해하면 안 된다.`,
+  mechanism_ko: `RF 에너지가 조직의 전기적 저항을 통해 **열 에너지**로 전환된다.\n\n1. Thermal effect\n2. Immediate tissue response\n3. Subsequent collagen remodeling`,
+  procedure_ko: `1. 피부 상태 및 시술 부위 평가\n2. 시술 부위 준비 및 필요 시 marking\n3. Treatment tip을 피부에 접촉\n4. RF energy를 반복적으로 전달\n5. 장비별 cooling / impedance feedback 등을 이용해 에너지 전달 조절\n6. 시술 후 피부 반응 확인`,
+  duration_ko: `장비·시술 부위·shot 수·protocol에 따라 달라진다.`,
+  pain_downtime_ko: `**Pain:** 장비와 에너지 설정에 따라 차이가 크다.\n\n**Downtime:** 일시적 홍반·부종·열감 등이 발생할 수 있다.`,
+  results_timeline_ko: `- Immediately after: 일부 tightening 변화가 관찰될 수 있음\n- 1–3 months: remodeling 과정에 따른 변화 평가\n- 3–6 months: 지속적인 개선이 관찰되는 주요 구간`,
+  best_for_ko: `- Mild-to-moderate skin laxity\n- Jawline / lower-face laxity가 고민인 사람\n- 절개 수술을 원하지 않는 사람\n- 점진적인 변화를 선호하는 사람`,
+  limitations_ko: `- Surgical facelift의 대체재로 보면 안 됨\n- 심한 처짐에서는 기대치가 맞지 않을 수 있음\n- Device / protocol / operator 차이가 중요함`,
+  risks_ko: `- Pain / discomfort\n- Erythema / edema\n- Temporary altered sensation\n- Burns 또는 과도한 thermal injury 가능성`,
+  device_market_intel_ko: `RF Skin Tightening은 **Device differentiation이 매우 중요한 Treatment**다.\n\n현재 추적 장비 예시:\n- Thermage FLX\n- Volnewmer\n- DENSITY`,
+  global_market_intel_ko: `Monopolar RF는 비교적 오래된 non-invasive tightening category다. Established benchmark와 new-generation RF systems의 비교축으로 관찰한다.`,
+  korea_market_intel_ko: `한국에서는 글로벌 RF 장비뿐 아니라 국내 제조사의 RF tightening platform도 함께 추적한다.\n\n- 실제 병원 보유율\n- 시술 가격대\n- shot 수와 package 구조\n- 외국인 고객에게 노출되는 브랜드`,
+  comparison_guide_ko: `**RF Skin Tightening vs 특정 RF Device**\nRF Skin Tightening = Treatment category\nThermage / Volnewmer / DENSITY = Device / product\n\n**RF Skin Tightening vs Microneedling RF**\n- RF Skin Tightening: External / Non-invasive\n- Microneedling RF: Microneedling delivery`,
+  founder_take_ko: `## Working Take — v0.1\n\nRF 시장은 고객에게 **Treatment와 Brand가 뒤섞여 보이기 쉬운 영역**이다.\n\ndecode.skin의 역할은 Treatment → Modality → Device → Clinic 순서로 다시 연결해 주는 것이다.\n\n**Research Agenda**\n- 실제 효과 차이는 Device 자체에서 얼마나 발생하는가?\n- shot 수 / energy / operator technique의 영향은 얼마나 큰가?\n- 한국 병원 가격 차이는 무엇 때문에 발생하는가?`,
+  source: "demo",
+};
