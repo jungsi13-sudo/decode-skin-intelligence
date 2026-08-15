@@ -48,6 +48,12 @@ Codex or developer changes
 - Founder Take and all internal-only intelligence must not be published or made available to public clients.
 - Routine edits belong in NocoDB. Codex is used for system-level work such as functionality, layout, authentication, data integrations, and tests.
 
+## Internal Wiki authentication
+
+The Internal Wiki uses Supabase Auth email/password and Google OAuth sign-in with cookie-based SSR sessions. `proxy.ts` redirects unauthenticated requests before the internal routes run, while the internal route-group layout verifies claims again before it renders any Wiki content. Google OAuth returns through `/auth/callback`, where its PKCE code is exchanged for the session before the user returns to the requested internal route. This prevents Founder Take and other internal material from being rendered for unauthenticated requests.
+
+Only `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` are used. These values identify the Supabase project and are safe for the browser when database Row Level Security (RLS) is configured correctly. No service-role or other secret key is used by the frontend.
+
 ## Current repository structure
 
 ```text
@@ -62,11 +68,10 @@ AGENTS.md            Instructions for Codex and other coding agents
 
 The Treatment Wiki reader in `lib/supabase-rest.ts` is prepared to read `treatments`, `treatment_content`, `treatment_methods`, and `modalities`. It falls back to prototype data when Supabase configuration or reads fail. The Learning Wiki is currently static prototype content in `lib/learning-wiki.ts`.
 
-## Planned implementation — do not implement in this documentation task
+## Remaining planned implementation — do not implement without explicit approval
 
-1. Add authentication for the Internal Wiki.
-2. Connect Treatment Wiki to real Supabase data.
-3. Move Learning Wiki content to a DB-driven model.
-4. Test the full NocoDB input → Supabase → Wiki output path.
+1. Connect Treatment Wiki to real Supabase data.
+2. Move Learning Wiki content to a DB-driven model.
+3. Test the full NocoDB input → Supabase → Wiki output path.
 
 These items require explicit implementation work, including an authorization/data-access design before any internal content is exposed.

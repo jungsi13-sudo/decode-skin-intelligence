@@ -1,8 +1,8 @@
 import { demoTreatment } from "./demo-data";
 import type { TreatmentIntel, TreatmentNavItem } from "./types";
 
-const projectUrl = process.env.SUPABASE_URL;
-const apiKey = process.env.SUPABASE_PUBLISHABLE_KEY || process.env.SUPABASE_SECRET_KEY;
+const projectUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const apiKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
 
 function headers() {
   return apiKey ? { apikey: apiKey } : undefined;

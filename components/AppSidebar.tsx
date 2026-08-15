@@ -1,4 +1,5 @@
 import Link from "next/link";
+import AuthControls from "@/components/AuthControls";
 import type { TreatmentNavItem } from "@/lib/types";
 import { learningGroups } from "@/lib/learning-wiki";
 
@@ -48,6 +49,7 @@ export default function AppSidebar({
           </nav>
         </div>
       ))}
+      <AuthControls />
     </aside>
   );
 }

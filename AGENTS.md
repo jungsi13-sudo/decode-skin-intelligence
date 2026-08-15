@@ -30,11 +30,12 @@ This repository is the **internal** Next.js + React viewer for decode.skin's Tre
 
 ## Current implementation boundaries
 
-The following are planned, but **must not be implemented unless explicitly requested**:
+Internal Wiki email/password and Google OAuth authentication are approved implementation scopes. Keep them limited to Supabase Auth with browser-safe public credentials and preserve server-side route protection.
 
-1. Internal Wiki authentication.
-2. Treatment Wiki backed by real Supabase data.
-3. Learning Wiki backed by database-driven content.
-4. An end-to-end NocoDB input → Supabase → Wiki output test.
+The following remain planned, but **must not be implemented unless explicitly requested**:
+
+1. Treatment Wiki backed by real Supabase data.
+2. Learning Wiki backed by database-driven content.
+3. An end-to-end NocoDB input → Supabase → Wiki output test.
 
 See [`docs/architecture.md`](docs/architecture.md) for the operating model and roadmap.

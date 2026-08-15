@@ -40,14 +40,14 @@ Then open `http://localhost:3000`.
 
 ## Supabase environment variables
 
-Copy `.env.example` to `.env.local` and fill in:
+Copy `.env.example` to `.env.local` and fill in the browser-safe project credentials:
 
 ```bash
-SUPABASE_URL=...
-SUPABASE_PUBLISHABLE_KEY=...
+NEXT_PUBLIC_SUPABASE_URL=...
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=...
 ```
 
-Without these variables, RF Skin Tightening uses demo content so the UI can still be reviewed.
+Without these variables, the Internal Wiki stays protected and the login page shows a configuration error. A service-role or other secret key is never used by this frontend.
 
 ## Main routes
 
@@ -88,7 +88,7 @@ Without these variables, RF Skin Tightening uses demo content so the UI can stil
 
 1. Put this repository on GitHub.
 2. Import it into Vercel and deploy the demo version.
-3. Add `SUPABASE_URL` and `SUPABASE_PUBLISHABLE_KEY` as Vercel environment variables.
+3. Add `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` as Vercel environment variables.
 4. Configure safe read access/RLS for the internal viewer.
 5. Confirm: NocoDB edit → Supabase row changes → Viewer refresh shows the change.
-6. Add login before storing or exposing sensitive internal/customer data.
+6. Configure Supabase Auth email/password users and the Vercel environment variables before deploying the Internal Wiki.
