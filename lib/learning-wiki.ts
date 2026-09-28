@@ -58,6 +58,7 @@ export const learningPages: LearningPage[] = [
           "Documentation / Source of Truth — Notion",
           "Frontend fundamentals — HTML, CSS, JavaScript",
           "Frontend structure — React, Next.js",
+          "Frontend styling / design system — Tailwind CSS, shadcn/ui",
           "Coding workspace / agent — VS Code, Codex",
           "Code history / collaboration — Git, GitHub",
           "Deployment / hosting — Vercel, Render",
@@ -80,7 +81,7 @@ export const learningPages: LearningPage[] = [
       "decode.skin MVP의 전체 시스템 지도를 이 페이지에서 계속 업데이트한다.",
       "새 도구를 도입할 때는 기존 도구와 역할이 중복되는지 먼저 확인한다."
     ],
-    tools: ["Supabase", "NocoDB", "Directus", "Next.js", "React", "Codex", "VS Code", "GitHub", "Vercel", "Render", "Docker", "Notion", "Figma", "v0", "Gamma"]
+    tools: ["Supabase", "NocoDB", "Directus", "Next.js", "React", "Tailwind CSS", "shadcn/ui", "Codex", "VS Code", "GitHub", "Vercel", "Render", "Docker", "Notion", "Figma", "v0", "Gamma"]
   },
   {
     slug: "database-first-question",
@@ -715,8 +716,188 @@ export const learningPages: LearningPage[] = [
     ]
   },
   {
-    slug: "vscode-codex",
+    slug: "tailwind-css",
     index: 14,
+    title: "CSS가 있는데 Tailwind CSS는 왜 필요하지?",
+    subtitle: "스타일을 없애는 도구가 아니라, 정해진 디자인 언어로 빠르고 일관되게 CSS를 작성하는 방법",
+    category: "FRONTEND",
+    questions: [
+      "HTML과 CSS를 이미 쓰고 있는데 Tailwind CSS는 또 무엇을 해주는 거야?",
+      "className 안에 단어가 길게 붙어 있으면 결국 CSS를 다른 곳에 쓰는 것과 무엇이 달라?",
+      "모바일 화면과 hover 상태도 Tailwind만으로 만들 수 있어?"
+    ],
+    why: "초기 decode.skin 화면은 globals.css 하나에 수많은 전용 class를 정의했다. 화면이 커지자 어떤 스타일이 어느 페이지에 쓰이는지 찾기 어렵고, 비슷한 카드와 여백이 조금씩 달라지는 문제가 생겼다.",
+    confusion: "Tailwind를 CSS를 대체하는 새로운 언어로 생각하기 쉽지만, 실제로는 미리 정의된 작은 CSS 규칙을 className으로 조합하고 필요한 CSS만 생성하는 도구다.",
+    simpleAnswer: "Tailwind CSS는 색상·간격·크기·반응형 규칙을 작은 utility class로 제공한다. HTML/React 코드 가까이에서 조합하므로 화면의 구조와 스타일을 한눈에 읽고, 같은 디자인 기준을 반복해서 사용할 수 있다.",
+    sections: [
+      {
+        title: "Tailwind도 결국 CSS를 만든다",
+        paragraphs: [
+          "브라우저가 Tailwind라는 문법을 직접 이해하는 것은 아니다. 개발 과정에서 Tailwind가 프로젝트 파일의 className을 찾아 실제 CSS로 변환하고, 브라우저는 그 결과물만 받는다.",
+          "따라서 padding, flex, grid, color 같은 CSS 기초를 이해하면 Tailwind class의 의미도 훨씬 빠르게 읽을 수 있다. Tailwind는 CSS 지식을 없애는 도구가 아니라 CSS를 일정한 규칙으로 사용하는 도구다."
+        ],
+        code: "CSS로 직접 작성\n.card { padding: 24px; border-radius: 16px; background: white; }\n\nTailwind로 조합\n<div className=\"rounded-2xl bg-card p-6\">...</div>"
+      },
+      {
+        title: "className을 왼쪽부터 읽는 방법",
+        code: "<div className=\"grid gap-4 rounded-2xl border bg-card p-6 shadow-sm\">\n  Content\n</div>",
+        bullets: [
+          "grid — 자식 요소를 Grid layout으로 배치",
+          "gap-4 — 자식 요소 사이에 디자인 시스템의 간격 적용",
+          "rounded-2xl — 큰 모서리 반경 적용",
+          "border — 기본 테두리 적용",
+          "bg-card — card라는 semantic color token 사용",
+          "p-6 — 네 방향 내부 여백 적용",
+          "shadow-sm — 작은 그림자 적용"
+        ],
+        note: "className이 길어지는 것 자체가 실패는 아니다. 반복되는 의미 있는 UI 덩어리가 생겼을 때 React component로 묶는 것이 핵심이다."
+      },
+      {
+        title: "상태와 반응형을 prefix로 표현한다",
+        paragraphs: [
+          "Tailwind의 variant는 특정 조건에서만 utility를 적용한다. hover:는 마우스를 올렸을 때, focus-visible:은 키보드 포커스가 보일 때, md:는 중간 크기 화면 이상일 때 적용된다.",
+          "기본 class를 모바일 화면으로 두고 sm:, md:, lg:를 더하는 mobile-first 방식으로 작성하면 작은 화면부터 자연스럽게 확장할 수 있다."
+        ],
+        code: "<button className=\"w-full bg-primary px-4 py-2 hover:bg-primary/90 md:w-auto\">\n  저장하기\n</button>\n\n기본: 모바일에서 전체 너비\nmd 이상: 내용만큼의 너비\nhover: 마우스를 올리면 배경색 변화"
+      },
+      {
+        title: "Design token이 일관성을 만든다",
+        paragraphs: [
+          "매번 #4f46e5 같은 실제 색상값을 쓰면 브랜드 색상을 바꿀 때 모든 파일을 찾아야 한다. background, primary, muted처럼 역할을 나타내는 token을 사용하면 한 곳의 값만 바꿔 전체 분위기를 조정할 수 있다.",
+          "Tailwind v4에서는 @theme을 통해 token을 utility와 연결할 수 있다. decode.skin은 globals.css의 CSS variable을 @theme inline에 연결해 bg-primary, text-muted-foreground 같은 표현을 사용한다."
+        ],
+        code: ":root {\n  --primary: oklch(0.58 0.21 267);\n}\n\n@theme inline {\n  --color-primary: var(--primary);\n}\n\n<button className=\"bg-primary text-primary-foreground\">...</button>"
+      },
+      {
+        title: "decode.skin에서는 어떻게 적용했나",
+        bullets: [
+          "기존의 긴 전용 CSS class를 각 화면의 Tailwind utility로 이동",
+          "background, foreground, primary, accent를 semantic token으로 통일",
+          "lg:grid-cols-* 같은 variant로 Sidebar와 본문의 반응형 layout 구성",
+          "반복되는 Card, Badge, Button은 component로 분리해 class 중복 감소",
+          "콘텐츠와 Supabase 데이터 구조는 건드리지 않고 presentation layer만 변경"
+        ]
+      },
+      {
+        title: "Tailwind를 쓸 때 피해야 할 것",
+        bullets: [
+          "의미가 같은데 페이지마다 임의의 색상과 간격을 새로 선택하는 것",
+          "한 줄의 className을 무조건 별도 CSS class로 다시 감싸 Tailwind의 장점을 없애는 것",
+          "조건에 따라 만들어지는 class 이름을 문자열 조합으로 숨겨 빌드 도구가 찾지 못하게 하는 것",
+          "CSS 기초를 배우지 않고 class 이름만 암기하는 것"
+        ]
+      }
+    ],
+    remember: [
+      "Tailwind는 CSS의 대체 언어가 아니라 CSS utility를 생성하고 조합하는 framework다.",
+      "utility class는 디자인 선택지를 제한해 화면의 일관성을 높인다.",
+      "반복되는 UI는 Tailwind class를 지우는 대신 React component로 묶는다.",
+      "기본은 mobile-first이고, breakpoint prefix로 큰 화면의 변화를 추가한다."
+    ],
+    later: [
+      "새 페이지를 만들 때 globals.css에 전용 class를 먼저 추가하지 말고 기존 token과 utility로 구성한다.",
+      "브랜드 색상이나 radius를 변경할 때 각 페이지가 아니라 design token부터 수정한다."
+    ],
+    tools: ["Tailwind CSS", "CSS", "React", "PostCSS", "Design Tokens"],
+    references: [
+      { label: "Tailwind — Styling with utility classes", href: "https://tailwindcss.com/docs/styling-with-utility-classes" },
+      { label: "Tailwind — Responsive design", href: "https://tailwindcss.com/docs/responsive-design" },
+      { label: "Tailwind — Theme variables", href: "https://tailwindcss.com/docs/theme" }
+    ]
+  },
+  {
+    slug: "shadcn-ui",
+    index: 15,
+    title: "Tailwind를 적용했는데 shadcn/ui는 또 왜 필요하지?",
+    subtitle: "Button과 Card를 매번 다시 만들지 않고, 내 프로젝트가 소유하는 UI 시스템으로 쌓는 방법",
+    category: "FRONTEND",
+    questions: [
+      "Tailwind로 모든 스타일을 만들 수 있다면 shadcn/ui는 무슨 역할을 하는 거야?",
+      "shadcn/ui는 npm에서 불러다 쓰는 일반적인 component library야?",
+      "코드가 components/ui 폴더 안에 들어오는 이유는 뭐야?"
+    ],
+    why: "Tailwind로 개별 화면을 빠르게 꾸밀 수 있게 된 뒤에도 Button, Badge, Card처럼 반복되는 UI의 모양과 상태를 매번 같은 방식으로 구현할 기준이 필요했다.",
+    confusion: "이름에 ui가 붙어 있어 완성된 component package를 import하는 서비스처럼 보이지만, shadcn/ui의 핵심은 선택한 component의 source code를 프로젝트 안으로 가져와 직접 소유하고 조합하는 방식이다.",
+    simpleAnswer: "Tailwind가 스타일의 작은 재료라면 shadcn/ui는 그 재료와 접근성 primitive를 조합한 UI 설계도다. 필요한 component 코드를 프로젝트에 추가한 뒤 우리 디자인에 맞게 직접 수정한다.",
+    sections: [
+      {
+        title: "세 층을 분리해서 이해하기",
+        code: "React / Next.js\n└─ 화면 구조와 component 동작\n   └─ shadcn/ui\n      └─ Button · Card · Dialog 같은 재사용 설계\n         └─ Tailwind CSS\n            └─ 색상 · 여백 · 크기 · 상태 style",
+        bullets: [
+          "React — UI를 component로 나누고 상태와 rendering을 관리",
+          "Tailwind CSS — component에 실제 시각적 style을 적용",
+          "shadcn/ui — 자주 쓰는 component의 구조, variant, 접근성, 기본 디자인을 제공"
+        ]
+      },
+      {
+        title: "일반 component library와 무엇이 다른가",
+        paragraphs: [
+          "일반 library는 설치된 package 내부의 component를 import해서 사용한다. 내부 구현을 바꾸기 어렵기 때문에 옵션을 찾거나 외부에서 style을 덮어쓰는 경우가 많다.",
+          "shadcn/ui는 CLI 또는 registry를 통해 실제 source file을 components/ui 같은 프로젝트 폴더에 추가한다. Button의 radius나 variant가 필요와 다르면 우리 코드인 button.tsx를 직접 고칠 수 있다."
+        ],
+        code: "일반 library\nnode_modules의 Button → import해서 사용\n\nshadcn/ui\ncomponents/ui/button.tsx → 우리 프로젝트가 소유하고 직접 수정"
+      },
+      {
+        title: "component를 추가하고 사용하는 흐름",
+        code: "# 필요한 component source를 프로젝트에 추가\npnpm dlx shadcn@latest add button card badge\n\n# 화면에서 import\nimport { Button } from \"@/components/ui/button\"\n\n<Button variant=\"outline\">Learning Wiki</Button>",
+        note: "CLI는 component source와 필요한 dependency를 추가해 주는 도구다. 실행 후 component가 자동으로 외부에서 렌더링되는 것이 아니라, 프로젝트 코드 안에 생성된다."
+      },
+      {
+        title: "variant와 cn이 해결하는 문제",
+        paragraphs: [
+          "같은 Button이라도 primary, outline, ghost처럼 역할이 다르고 크기도 달라질 수 있다. variant 규칙을 component 한 곳에 정의하면 페이지마다 긴 className을 복사하지 않아도 된다.",
+          "cn 함수는 조건부 class를 합치고 충돌하는 Tailwind class를 정리한다. 예를 들어 기본 padding 위에 특정 화면만의 padding을 전달해도 마지막 의도가 올바르게 반영되도록 돕는다."
+        ],
+        code: "<Button variant=\"default\">저장</Button>\n<Button variant=\"outline\">취소</Button>\n<Badge variant=\"live\">LIVE · Supabase</Badge>"
+      },
+      {
+        title: "components.json과 theme token",
+        paragraphs: [
+          "components.json은 shadcn CLI가 component를 어느 폴더에 만들고, 어떤 CSS와 alias를 사용할지 이해하는 설정 파일이다. 실제 앱 실행에 반드시 필요한 runtime 설정은 아니지만 component 추가 작업의 기준이 된다.",
+          "shadcn/ui component가 bg-primary, text-foreground 같은 semantic token을 사용하면 globals.css의 token 값만 바꿔도 Button, Badge, Card가 함께 같은 브랜드 언어로 바뀐다."
+        ],
+        code: "components.json\n├─ style: new-york\n├─ css: app/globals.css\n├─ cssVariables: true\n└─ aliases.ui: @/components/ui\n\nglobals.css의 --primary 변경\n→ 모든 bg-primary component가 함께 변경"
+      },
+      {
+        title: "decode.skin에서 실제로 가진 UI component",
+        bullets: [
+          "Button — 기본, outline, secondary, ghost 등의 action 표현",
+          "Badge — 기술명, content status, live/demo source 표시",
+          "Card — 학습 section과 treatment intelligence record의 공통 surface",
+          "AppSidebar — 작은 UI component들을 조합한 서비스 전용 navigation"
+        ],
+        note: "shadcn/ui를 쓴다는 것은 모든 화면을 똑같이 만든다는 뜻이 아니다. 작은 공통 규칙은 공유하고, decode.skin만의 학습 경험은 그 위에서 별도로 설계한다."
+      },
+      {
+        title: "언제 shadcn/ui가 특히 유용한가",
+        bullets: [
+          "여러 페이지에서 같은 Button, Form, Dialog를 반복해서 사용할 때",
+          "keyboard focus와 screen reader 같은 접근성 기본값이 중요한 interaction을 만들 때",
+          "AI가 새 UI를 만들어도 기존 component와 token을 재사용하게 하고 싶을 때",
+          "외부 library의 look에 갇히지 않고 source code를 직접 통제하고 싶을 때"
+        ]
+      }
+    ],
+    remember: [
+      "shadcn/ui는 완성품 package를 소비하는 전통적인 component library와 다르다.",
+      "추가된 component source는 프로젝트가 소유하며 직접 수정할 수 있다.",
+      "Tailwind는 style 재료, shadcn/ui는 재사용 가능한 component 설계다.",
+      "token → UI component → page 순서로 쌓으면 일관된 design system이 된다."
+    ],
+    later: [
+      "Form, Dialog, Table이 필요해질 때 먼저 shadcn registry에서 적절한 component를 확인한다.",
+      "새로운 색이나 크기를 페이지에 직접 추가하기 전에 기존 token과 variant로 표현 가능한지 확인한다."
+    ],
+    tools: ["shadcn/ui", "Tailwind CSS", "React", "Radix UI", "CVA", "Design System"],
+    references: [
+      { label: "shadcn/ui — Introduction", href: "https://ui.shadcn.com/docs" },
+      { label: "shadcn/ui — Theming", href: "https://ui.shadcn.com/docs/theming" },
+      { label: "shadcn/ui — components.json", href: "https://ui.shadcn.com/docs/components-json" }
+    ]
+  },
+  {
+    slug: "vscode-codex",
+    index: 16,
     title: "VS Code는 또 뭐고 Codex는 뭐가 다른 거야?",
     subtitle: "웹사이트 기술이 아니라 코드를 다루는 작업 도구와 개발 에이전트",
     category: "DEVELOPMENT",
@@ -763,52 +944,118 @@ export const learningPages: LearningPage[] = [
   },
   {
     slug: "git-github-codex",
-    index: 15,
-    title: "Codex가 파일을 수정하면 내가 다시 올려야 해? — Git과 GitHub",
-    subtitle: "로컬 프로젝트, repository, commit, push와 Codex Cloud를 한 그림으로 이해하기",
+    index: 17,
+    title: "Git은 기능이야, 프로그램이야? — AI와 함께 쓰는 버전 관리",
+    subtitle: "타임머신이라는 개념에서 시작해 commit, branch, GitHub, Cursor와 Codex의 실제 작업 흐름까지",
     category: "DEVELOPMENT",
     questions: [
-      "Codex가 로컬에 있는 파일이나 폴더의 코드를 건들 텐데, 그럼 다시 내가 올려야 해? 어디다?",
-      "그냥 Codex가 GitHub에 들어가서 하면 안 되는 거야?"
+      "Git이란 기능이야, 아니면 내 컴퓨터에 설치하는 프로그램이야?",
+      "코딩할 때 터미널을 계속 백그라운드에 켜두는 거야? Cursor에서는 Git이 어떻게 작동해?",
+      "Codex에게 이전 버전으로 돌려달라고 하면 되는데 Git을 꼭 써야 해?",
+      "Git과 GitHub는 같은 것처럼 보이는데 무엇이 달라?"
     ],
-    why: "코드가 내 Mac에도 있고 GitHub에도 있을 수 있다는 설명에서 '진짜 원본이 어디인지'와 변경사항이 어떻게 이동하는지 궁금해졌다.",
-    confusion: "GitHub를 웹사이트 실행 장소처럼 생각하기도 했고, 로컬 파일을 수정할 때마다 수동으로 다시 업로드해야 하는지 걱정했다.",
-    simpleAnswer: "Git은 파일 변경 이력을 기록하고 동기화하는 시스템이고 GitHub는 repository를 온라인에 보관하는 서비스다. Codex는 로컬 프로젝트를 수정할 수도 있고 GitHub repository 기반 cloud 작업을 할 수도 있다.",
+    why: "Codex와 Cursor가 코드를 직접 수정할 수 있게 되자, AI가 기억하는 이전 상태와 Git이 기록하는 이전 상태가 어떻게 다른지, 파일을 수정할 때 Git이 실제로 무엇을 하는지 이해할 필요가 생겼다.",
+    confusion: "Git을 에디터 안의 되돌리기 기능이나 계속 실행되는 감시 프로그램으로 생각하기 쉽고, GitHub와도 같은 제품처럼 보인다. 또한 파일을 저장하면 자동으로 Git history까지 저장된다고 오해하기 쉽다.",
+    simpleAnswer: "Git은 프로젝트의 스냅샷과 변경 이력을 내 컴퓨터에 기록하는 독립된 version control 프로그램이다. AI의 기억이 아니라 실제 파일 상태를 commit으로 보존하므로, AI와 작업할수록 더 중요한 안전장치가 된다.",
     sections: [
       {
-        title: "Repository의 가장 쉬운 정의",
+        title: "Git의 정체: 프로젝트를 위한 타임머신",
         paragraphs: [
-          "Repository는 한 프로젝트의 파일·폴더와 각 파일의 변경 이력을 함께 관리하는 공간이다. 로컬에도 Git repository가 있을 수 있고 GitHub에는 그 온라인 원격 저장소가 있을 수 있다."
+          "Git은 2005년 Linux kernel 개발을 위해 Linus Torvalds가 만든 무료 오픈소스 분산 버전 관리 프로그램이다. 파일을 project_final, project_REAL_final처럼 복사하지 않고, 의미 있는 시점마다 프로젝트 상태를 snapshot으로 기록한다.",
+          "Git은 Cursor나 Codex에 포함된 단순 기능이 아니다. 컴퓨터에 설치되는 별도 프로그램이고, editor와 coding agent는 Git 명령을 실행하거나 결과를 읽어 편리한 화면으로 보여준다."
+        ],
+        code: "파일 복사 방식\nproject_v1 → project_final → project_REAL_final\n\nGit 방식\n하나의 project folder\n└─ commit A → commit B → commit C\n   필요하면 정확한 snapshot을 다시 확인"
+      },
+      {
+        title: "Repository, Commit, Branch, Merge",
+        bullets: [
+          "Repository — 프로젝트 파일과 Git history를 함께 관리하는 공간. 로컬 프로젝트 안의 .git directory에 history와 metadata가 저장된다.",
+          "Commit — 선택한 변경사항을 설명 메시지와 함께 기록한 snapshot. 파일을 저장하는 것과 commit은 다른 행동이다.",
+          "Branch — 기존 history에서 뻗어 나온 독립적인 작업 흐름. 새 기능을 main과 분리해서 실험할 수 있다.",
+          "Merge — 한 branch에서 검증한 변경을 다른 branch의 history에 합치는 과정.",
+          "Remote — GitHub처럼 내 컴퓨터 밖에 있는 다른 Git repository를 가리키는 연결 정보."
         ]
       },
       {
-        title: "로컬 Codex 방식",
-        code: "Mac project\n  ↕ Codex가 파일 수정\nGit commit\n  ↓ push\nGitHub repository\n  ↓\nVercel"
+        title: "Git이 기억하는 세 가지 상태",
+        paragraphs: [
+          "Git을 이해하는 가장 중요한 흐름은 working tree, staging area, local repository다. 파일을 수정했다고 바로 history에 저장되는 것이 아니다. 어떤 변경을 다음 snapshot에 넣을지 고른 뒤 commit해야 한다."
+        ],
+        code: "[ Working tree ]\n파일을 수정하고 저장\n       │ git add\n       ▼\n[ Staging area ]\n다음 snapshot에 넣을 변경을 선택\n       │ git commit\n       ▼\n[ Local repository ]\n내 컴퓨터의 Git history에 snapshot 기록\n       │ git push\n       ▼\n[ GitHub / Remote repository ]",
+        note: "commit하지 않은 변경은 Git history에 안전하게 보존된 snapshot이 아니다. AI 작업 전 기준점을 남기려면 먼저 현재 변경을 확인하고 의미 있는 commit을 만들어야 한다."
       },
       {
-        title: "Codex Cloud / repository 방식",
-        code: "GitHub repository\n  ↕\nCodex cloud task\n  ↓ 변경 제안 / PR / merge\nGitHub\n  ↓\nVercel"
+        title: "Git과 GitHub는 완전히 다른 역할이다",
+        bullets: [
+          "Git — 내 컴퓨터에 설치하는 version control 프로그램. 인터넷 없이 status, diff, commit, branch, history 확인 가능.",
+          "GitHub — Git repository를 온라인에 보관하고 공유하는 cloud service. backup, pull request, code review, team collaboration에 사용.",
+          "Git의 대안 — Mercurial 같은 다른 version control system.",
+          "GitHub의 대안 — GitLab, Bitbucket 같은 Git hosting service."
+        ],
+        code: "내 컴퓨터\nGit + Local repository\n       │ push / pull\n       ▼\n인터넷\nGitHub remote repository\n       │ deployment 연결\n       ▼\nVercel"
+      },
+      {
+        title: "Cursor에서 코딩하면 Git은 어떻게 작동하나",
+        paragraphs: [
+          "Cursor에서 파일을 저장하면 working tree의 실제 파일이 바뀐다. Cursor의 Source Control 화면은 설치된 Git을 호출해 마지막 commit과 현재 파일의 차이를 계산하고, 추가·수정·삭제된 줄을 색으로 보여준다.",
+          "터미널을 계속 켜두어야 Git이 추적되는 것은 아니다. .git은 감시 카메라처럼 실행 중인 프로그램이 아니라 history와 설정을 저장하는 directory다. 필요할 때 terminal이나 editor가 git status, git diff 같은 명령으로 현재 상태를 확인한다.",
+          "Cursor의 + 버튼은 대체로 git add, commit 버튼은 git commit에 해당한다. UI와 terminal은 서로 다른 Git이 아니라 같은 Git 프로그램을 조작하는 두 가지 방법이다."
+        ],
+        code: "Cursor에서 파일 저장\n        ↓\nWorking tree 변경\n        ↓\nSource Control UI 또는 terminal이 Git에 상태 요청\n        ↓\ngit status / git diff 결과 표시"
+      },
+      {
+        title: "AI에게 되돌려 달라고 하는 것과 Git 복구의 차이",
+        paragraphs: [
+          "Codex는 대화와 현재 파일을 바탕으로 코드를 다시 수정할 수 있지만, 과거 어느 시점의 모든 파일 상태를 대화 기억만으로 정확히 재현한다고 보장할 수 없다. 반면 Git commit은 실제 파일 snapshot과 연결 관계를 repository에 기록한다.",
+          "AI는 복구 작업을 도와주는 조수이고 Git은 복구 근거가 되는 기록이다. 특히 AI가 여러 파일을 한 번에 바꾸기 전 clean commit을 만들면, 변경 전후 diff를 정확히 검토하고 원하지 않는 변경만 선택적으로 되돌릴 수 있다."
+        ],
+        code: "안전한 AI 작업 cycle\n1. git status / git diff로 현재 상태 확인\n2. 작업 전 기준점 commit\n3. Codex 또는 Cursor AI로 변경\n4. 다시 git diff 확인\n5. build / test\n6. 만족하면 새 commit, 아니면 필요한 변경만 복구",
+        note: "git restore나 reset 같은 명령은 아직 commit하지 않은 작업을 잃게 할 수 있다. 명령의 대상과 영향을 확인하지 않은 채 전체 폴더에 실행하지 않는다."
+      },
+      {
+        title: "Terminal에서 시작하는 최소 명령어",
+        code: "# Git 설치 확인\ngit --version\n\n# 현재 project가 이미 Git repository인지 확인\ngit status\n\n# 새 folder에서만 repository 시작\ngit init\n\n# 변경 내용 확인\ngit diff\n\n# 이번 commit에 넣을 file 선택\ngit add app/page.tsx\n\n# snapshot 기록\ngit commit -m \"Add learning page\"\n\n# history 확인\ngit log --oneline",
+        note: "기존 프로젝트에서는 무조건 git init부터 실행하지 않는다. 먼저 git status로 repository 여부와 현재 변경사항을 확인하는 습관이 안전하다."
+      },
+      {
+        title: "Branch로 안전한 실험 공간 만들기",
+        paragraphs: [
+          "Branch는 project 전체를 다시 복사하는 대신, 특정 commit에서 시작하는 새로운 작업 흐름을 만든다. 기능 구현이 실패해도 main branch의 검증된 history는 그대로 유지된다."
+        ],
+        code: "main:       A ── B ───────── E\n                  ╲          ╱\nfeature/wiki:      C ── D ──\n\nA, B: 기존 안정 상태\nC, D: 새 page 작업\nE: 검증 후 merge된 결과"
+      },
+      {
+        title: "decode.skin에서의 실제 흐름",
+        code: "Codex / Cursor\n  ↓ local files 수정\ngit diff\n  ↓ 변경 검토\nbuild + lint\n  ↓ 검증\ngit add + git commit\n  ↓ 정확한 snapshot 저장\ngit push\n  ↓ GitHub와 동기화\nVercel deployment",
+        paragraphs: [
+          "코드 파일의 source of truth는 Git repository이고, treatment와 learning 운영 데이터의 source of truth는 Supabase다. Git은 database row 자체를 대신 백업하는 도구가 아니므로 두 자산을 구분해야 한다."
+        ]
       }
     ],
     remember: [
-      "파일을 매번 브라우저로 하나씩 재업로드하는 방식이 기본 workflow는 아니다.",
-      "Git은 변경을 기록하고 GitHub와 동기화한다.",
-      "Codex는 local codebase와 repository 기반 workflow 모두에 참여할 수 있다."
+      "Git은 editor 기능이 아니라 독립된 version control 프로그램이다.",
+      "파일 저장과 Git commit은 다르다. commit해야 복구 가능한 명확한 기준점이 생긴다.",
+      "Git은 local history, GitHub는 online hosting과 collaboration을 담당한다.",
+      ".git directory가 혼자 실시간 감시하는 것이 아니라, Git 명령과 editor가 현재 파일과 history를 비교한다.",
+      "AI 작업 전후에 status, diff, build/test, commit의 순서를 습관으로 만든다."
     ],
     later: [
-      "첫 GitHub repo를 만들고 commit 하나가 실제로 무엇을 저장하는지 확인한다.",
-      "Codex가 만든 변경사항을 pull request 형태로 검토하는 workflow를 연습한다."
+      "decode.skin repository에서 작은 변경 하나를 stage하고 commit한 뒤 diff와 history를 직접 확인한다.",
+      "기능별 branch와 pull request를 사용해 AI가 만든 변경을 merge 전에 검토한다.",
+      "Vercel을 GitHub repository와 연결해 검증된 commit이 deployment로 이어지는 흐름을 경험한다."
     ],
-    tools: ["Git", "GitHub", "Codex"],
+    tools: ["Git", "GitHub", "Cursor", "Codex", "Terminal", "Vercel"],
     references: [
-      { label: "GitHub — About Git", href: "https://docs.github.com/en/get-started/using-git/about-git" },
+      { label: "Pro Git — What is Git?", href: "https://git-scm.com/book/en/v2/Getting-Started-What-is-Git%3F" },
+      { label: "Pro Git — Recording Changes", href: "https://git-scm.com/book/en/v2/Git-Basics-Recording-Changes-to-the-Repository" },
+      { label: "Pro Git — Branches", href: "https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell" },
       { label: "GitHub — About repositories", href: "https://docs.github.com/en/repositories/creating-and-managing-repositories/about-repositories" },
       { label: "OpenAI Codex", href: "https://openai.com/codex/" }
     ]
   },
   {
     slug: "vercel-deployment",
-    index: 16,
+    index: 18,
     title: "GitHub에 코드가 있는데 Vercel은 왜 또 필요하지?",
     subtitle: "코드를 저장하는 것과 실제 인터넷 서비스로 배포하는 것의 차이",
     category: "DEPLOYMENT",
@@ -855,7 +1102,7 @@ export const learningPages: LearningPage[] = [
   },
   {
     slug: "supabase-api-auth-rls",
-    index: 17,
+    index: 19,
     title: "Frontend가 Supabase 데이터를 읽는다는 건 정확히 무슨 뜻이지?",
     subtitle: "Database를 직접 노출하는 것이 아니라 API와 권한을 통해 데이터를 전달하는 구조",
     category: "DATA & CMS",
@@ -904,7 +1151,7 @@ export const learningPages: LearningPage[] = [
   },
   {
     slug: "all-tools-map",
-    index: 18,
+    index: 20,
     title: "Tool Map — 지금까지 등장한 모든 소프트웨어와 SaaS는 어디에 쓰였나",
     subtitle: "새로운 이름이 나올 때마다 다시 길을 잃지 않기 위한 decode.skin 기술 도구 사전",
     category: "TOOLS",
@@ -941,7 +1188,9 @@ export const learningPages: LearningPage[] = [
           "CSS — presentation/style",
           "JavaScript — 동작과 데이터 처리",
           "React — component 기반 UI library",
-          "Next.js — React 기반 web application framework"
+          "Next.js — React 기반 web application framework",
+          "Tailwind CSS — utility class 기반 styling framework",
+          "shadcn/ui — 프로젝트가 source code를 소유하는 UI component system"
         ]
       },
       {
@@ -983,7 +1232,7 @@ export const learningPages: LearningPage[] = [
       "실제 MVP 개발 단계마다 Tool Map의 Current / Future 상태를 업데이트한다.",
       "비용과 팀 규모가 커지면 각 도구의 대체 가능성을 다시 평가한다."
     ],
-    tools: ["PostgreSQL", "Supabase", "NocoDB", "Directus", "WordPress", "Notion", "HTML", "CSS", "JavaScript", "React", "Next.js", "VS Code", "Codex", "Git", "GitHub", "Node.js", "npm", "Vercel", "Render", "Docker", "Figma", "v0", "Gamma", "ChatGPT"],
+    tools: ["PostgreSQL", "Supabase", "NocoDB", "Directus", "WordPress", "Notion", "HTML", "CSS", "JavaScript", "React", "Next.js", "Tailwind CSS", "shadcn/ui", "VS Code", "Codex", "Git", "GitHub", "Node.js", "npm", "Vercel", "Render", "Docker", "Figma", "v0", "Gamma", "ChatGPT"],
     references: [
       { label: "React", href: "https://react.dev/" },
       { label: "Next.js", href: "https://nextjs.org/docs" },
