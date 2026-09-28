@@ -32,8 +32,8 @@ It does not only store definitions. Each chapter records:
 ## Run locally
 
 ```bash
-npm install
-npm run dev
+pnpm install
+pnpm dev
 ```
 
 Then open `http://localhost:3000`.
@@ -52,6 +52,9 @@ Without these variables, RF Skin Tightening uses demo content so the UI can stil
 ## Main routes
 
 - `/learning/start-here`
+- `/learning/tailwind-css`
+- `/learning/shadcn-ui`
+- `/learning/git-github-codex`
 - `/learning/all-tools-map`
 - `/treatments/rf-skin-tightening`
 
@@ -71,7 +74,7 @@ Without these variables, RF Skin Tightening uses demo content so the UI can stil
 
 ### Founder Learning Wiki
 - Dynamic route: `/learning/[slug]`
-- 19 question-driven chapters based on the actual decode.skin build/learning path
+- 21 question-driven chapters based on the actual decode.skin build/learning path
 - Each page contains:
   - original questions
   - why the question came up
