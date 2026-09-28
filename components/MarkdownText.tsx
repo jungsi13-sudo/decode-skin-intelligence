@@ -11,7 +11,7 @@ function inline(text: string): React.ReactNode[] {
 }
 
 export default function MarkdownText({ text }: { text?: string | null }) {
-  if (!text) return <p className="empty">아직 입력된 내용이 없습니다.</p>;
+  if (!text) return <p className="text-sm italic text-muted-foreground">아직 입력된 내용이 없습니다.</p>;
 
   const lines = text.replace(/\r/g, "").split("\n");
   const nodes: React.ReactNode[] = [];

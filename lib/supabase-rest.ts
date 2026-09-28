@@ -1,6 +1,29 @@
 import { demoTreatment } from "./demo-data";
 import type { TreatmentIntel, TreatmentNavItem } from "./types";
 
+type TreatmentContentRow = Partial<Pick<
+  TreatmentIntel,
+  | "content_status"
+  | "updated_at"
+  | "overview_ko"
+  | "expected_effects_ko"
+  | "mechanism_ko"
+  | "procedure_ko"
+  | "duration_ko"
+  | "pain_downtime_ko"
+  | "results_timeline_ko"
+  | "best_for_ko"
+  | "limitations_ko"
+  | "risks_ko"
+  | "device_market_intel_ko"
+  | "global_market_intel_ko"
+  | "korea_market_intel_ko"
+  | "comparison_guide_ko"
+  | "founder_take_ko"
+>>;
+
+type NamedRelationRow = { name_en: string };
+
 const projectUrl = process.env.SUPABASE_URL;
 const apiKey = process.env.SUPABASE_PUBLISHABLE_KEY || process.env.SUPABASE_SECRET_KEY;
 
@@ -47,12 +70,12 @@ export async function getTreatmentIntel(slug: string): Promise<TreatmentIntel | 
     if (!treatment) return null;
 
     const [contents, methods, modalities] = await Promise.all([
-      getJson<any[]>(`treatment_content?treatment_id=eq.${treatment.id}&select=*&limit=1`),
+      getJson<TreatmentContentRow[]>(`treatment_content?treatment_id=eq.${treatment.id}&select=*&limit=1`),
       treatment.method_id
-        ? getJson<any[]>(`treatment_methods?id=eq.${treatment.method_id}&select=name_en&limit=1`)
+        ? getJson<NamedRelationRow[]>(`treatment_methods?id=eq.${treatment.method_id}&select=name_en&limit=1`)
         : Promise.resolve([]),
       treatment.modality_id
-        ? getJson<any[]>(`modalities?id=eq.${treatment.modality_id}&select=name_en&limit=1`)
+        ? getJson<NamedRelationRow[]>(`modalities?id=eq.${treatment.modality_id}&select=name_en&limit=1`)
         : Promise.resolve([]),
     ]);
 
