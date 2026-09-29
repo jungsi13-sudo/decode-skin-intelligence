@@ -1,5 +1,12 @@
 # decode.skin Intelligence & Learning Wiki
 
+## 서비스 소개
+
+decode.skin Intelligence & Learning Wiki는 피부 시술 정보와 서비스 개발 과정에서 학습한 기술을 정리한 지식형 웹 서비스입니다.
+
+- **Treatment Intelligence Wiki**: Supabase에 저장된 피부 시술 정보를 구조적으로 제공합니다.
+- **Founder Learning Wiki**: Next.js, React, Supabase, GitHub, Vercel 등 실제 개발 과정에서 학습한 내용을 질문 중심으로 제공합니다.
+
 Internal Next.js prototype for two connected knowledge experiences:
 
 1. **Treatment Intelligence Wiki** — renders structured treatment data from Supabase (`treatments`, `treatment_content`, `treatment_methods`, `modalities`).
@@ -29,12 +36,15 @@ It does not only store definitions. Each chapter records:
 - Docker = Directus runtime packaging
 - Notion = architecture/policy source of truth
 
-## Run locally
+## 실행 방법
+
+먼저 저장소를 클론하고 프로젝트 폴더로 이동합니다.
 
 ```bash
+git clone https://github.com/jungsi13-sudo/decode-skin-intelligence.git
+cd decode-skin-intelligence
 pnpm install
 pnpm dev
-```
 
 Then open `http://localhost:3000`.
 
